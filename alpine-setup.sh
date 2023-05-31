@@ -39,6 +39,7 @@ iptables -A INPUT -p tcp --dport ssh -j ACCEPT
 rc-service crond start
 rc-service docker start
 rc-service iptables start
+rc-service qemu-guest-agent start
 
 # add wheel to sudoers
 echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
