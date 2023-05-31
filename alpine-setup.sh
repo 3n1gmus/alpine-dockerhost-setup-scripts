@@ -18,6 +18,7 @@ apk add docker-compose
 apk add crond
 apk add iptables
 apk add vim
+apk add git
 
 # setup udev
 rc-update add udev sysinit
