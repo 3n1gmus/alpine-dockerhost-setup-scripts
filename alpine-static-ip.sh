@@ -25,10 +25,16 @@ iface $INTERFACE inet static
   gateway $GATEWAY
 EOF
 
-# Configure DNS
-cat > /etc/resolv.conf <<EOF
-nameserver $DNS_SERVERS
-EOF
+# Check if DNS servers are already present in resolv.conf
+if ! grep -qxF "$DNS_SERVERS" /etc/resolv.conf; then
+  # Backup the existing resolv.conf file
+  cp /etc/resolv.conf /etc/resolv.conf.bak
+
+  # Configure DNS
+  for server in $DNS_SERVERS; do
+    echo "nameserver $server" >> /etc/resolv.conf
+  done
+fi
 
 # Restart the networking service
 /etc/init.d/networking restart
