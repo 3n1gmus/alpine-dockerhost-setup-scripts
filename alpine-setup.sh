@@ -1,34 +1,22 @@
 #!/bin/sh
 
-Archive_File () {
-        if [ -f $1 ]
-        then
-                Archive_Path="/etc/orig_config"
-                EpocTime=`date +"%s"`
-                [ ! -d $Archive_Path ] && mkdir -p $Archive_Path
-                Source=$1
-                IFS="/" read -a Path <<< $Source
-                Destination="$Archive_Path/${Path[-1]}.original"
-                if [ -f $Destination ]
-                then
-                        Destination="$Archive_Path/${Path[-1]}.${EpocTime}"
-                fi
-                echo "Moving $Source to $Destination"
-                sudo mv $Source $Destination
-        else
-                echo "$1 does not exist."
-        fi
-}
-
 # Update Repos
-config_file="/etc/apk/repositories"
-Archive_File $config_file
-sudo echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> $config_file
-sudo echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> $config_file
+mkdir -p "/etc/orig_config"
+cp "/etc/apk/repositories" "/etc/orig_config/repositories"
+echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> "/etc/apk/repositories"
+echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> "/etc/apk/repositories"
 
 # Install Default apps
 apk update
-apk add sudo udev qemu-guest-agent mandoc man-pages docker docker-compose crond iptables
+apk add sudo 
+apk add udev
+apk add qemu-guest-agent
+apk add mandoc
+apk add man-pages
+apk add docker
+apk add docker-compose
+apk add crond
+apk add iptables
 
 # setup udev
 rc-update add udev sysinit
