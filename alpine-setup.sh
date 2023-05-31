@@ -28,7 +28,7 @@ sudo echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> $co
 
 # Install Default apps
 apk update
-apk add sudo udev qemu-guest-agent mandoc man-pages
+apk add sudo udev qemu-guest-agent mandoc man-pages docker docker-compose crond iptables
 
 # setup udev
 rc-update add udev sysinit
@@ -36,33 +36,18 @@ rc-update add udev-trigger
 rc-update add udev-settle
 rc-update add udev-postmount
 rc-update add qemu-guest-agent
+rc-update add docker
+rc-update add crond
+rc-update add iptables
+
+# Service Starts
+rc-service crond start
+rc-service docker start
+rc-service iptables start
 
 # add wheel to sudoers
 echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
 
-# Install and start Cron
-apk add crond && rc-service crond start && rc-update add crond
-
 # Create auto update job/script
 echo -e "#!/bin/sh\napk upgrade --update | sed \"s/^/[\`date\`] /\" >> /var/log/apk-autoupgrade.log" > /etc/periodic/daily/apk-autoupgrade
 chmod 700 /etc/periodic/daily/apk-autoupgrade
-
-# AppArmor
-apk add apparmor apparmor-utils apparmor-profiles
-
-# AppArmor start-up
-config_file="/boot/extlinux.conf"
-Archive_File $config_file
-$config="/etc/orig_config/extlinux.conf.original"
-while IFS= read -r line; do
-	if [ $line == *"APPEND"* ]
-	then
-		$line = $line" lsm=landlock,yama,apparmor"
-		sudo echo "$line" >> $config_file
-	else
-		sudo echo "$line" >> $config_file
-	fi
-done <$config
-
-rc-service apparmor start
-rc-update add apparmor boot
