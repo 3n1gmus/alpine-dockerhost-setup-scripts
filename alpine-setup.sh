@@ -32,6 +32,9 @@ rc-update add iptables
 # Open SSH port
 iptables -A INPUT -p tcp --dport ssh -j ACCEPT
 
+# Update Iptables rules
+/etc/init.d/iptables save
+
 # Service Starts
 rc-service crond start
 rc-service docker start
