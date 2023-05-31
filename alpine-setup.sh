@@ -29,6 +29,9 @@ rc-update add docker
 rc-update add crond
 rc-update add iptables
 
+# Open SSH port
+iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+
 # Service Starts
 rc-service crond start
 rc-service docker start
