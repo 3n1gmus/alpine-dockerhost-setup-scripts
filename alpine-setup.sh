@@ -19,6 +19,7 @@ apk add crond
 apk add iptables
 apk add vim
 apk add git
+apk add bash
 
 # setup udev
 rc-update add udev sysinit
