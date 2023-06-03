@@ -21,6 +21,7 @@ apk add vim
 apk add git
 apk add bash
 apk add zip
+apk add logrotate
 
 # setup udev
 rc-update add udev sysinit

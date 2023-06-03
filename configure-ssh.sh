@@ -12,6 +12,6 @@ sed -i 's/#ClientAliveInterval 0/ClientAliveInterval 1800/' /etc/ssh/sshd_config
 sed -i 's/#ClientAliveCountMax 3/ClientAliveCountMax 0/' /etc/ssh/sshd_config
 
 # Restart the SSH service
-service ssh restart
+service sshd restart
 
 echo "SSH security settings have been updated."
