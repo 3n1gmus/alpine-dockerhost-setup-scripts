@@ -20,6 +20,7 @@ Scripts for setting up a docker host on alpine linux
 
 5. Configure-ssh.sh
 - Sets ssh security best practices.
+- Can be updated with primary ipaddress to the ssh listener
 
 6. iptables-docker-firewall.sh
 - Opens firewall ports for SSH and all docker exposed ports.
