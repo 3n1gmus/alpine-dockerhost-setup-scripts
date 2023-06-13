@@ -51,3 +51,6 @@ echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
 # Create auto update job/script
 echo -e "#!/bin/sh\napk upgrade --update | sed \"s/^/[\`date\`] /\" >> /var/log/apk-autoupgrade.log" > /etc/periodic/daily/apk-autoupgrade
 chmod 700 /etc/periodic/daily/apk-autoupgrade
+
+rm /etc/ssh/ssh_host_*
+ssh-keygen -A 
