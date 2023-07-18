@@ -22,6 +22,7 @@ apk add git
 apk add bash
 apk add zip
 apk add logrotate
+apk add bash
 
 # setup udev
 rc-update add udev sysinit
